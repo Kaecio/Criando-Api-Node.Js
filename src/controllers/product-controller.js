@@ -2,6 +2,7 @@
 
 const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
+const validation = require("../validator/validator");
 
 // traz tudo filtrando pelos "title price slug"
 exports.get = (req, res, next) => {
@@ -52,6 +53,16 @@ exports.getByTag = (req, res, next) => {
 
 // inserir dados
 exports.post = (req, res, next) => {
+  let validationProduct = new validation();
+  validationProduct.hasMinlen(req.body.title,3,'O título deve conter pelo menos 3 caracteres');
+  validationProduct.hasMinlen(req.body.slug,3,'O slug deve conter pelo menos 3 caracteres');
+  validationProduct.hasMinlen(req.body.description,3,'A descrição deve conter pelo menos 3 caracteres');
+
+  if (!validationProduct.isValid()) {
+    res.status(400).send(validationProduct.errors()).end();
+    return;
+  }
+
   var product = new Product(req.body);
   // product.title = req.body.title
   product
@@ -93,8 +104,6 @@ exports.delete = (req, res, next) => {
       res.status(201).send({ message: "Produto excluido com sucesso" });
     })
     .catch((err) => {
-      res
-        .status(400)
-        .send({ message: "Falha ao remover produto", data: err });
+      res.status(400).send({ message: "Falha ao remover produto", data: err });
     });
 };
