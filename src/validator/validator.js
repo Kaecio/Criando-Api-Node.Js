@@ -1,7 +1,7 @@
 "use strict";
 let errors = [];
 
-const validation = () => {
+function validation(){
   errors = [];
 };
 

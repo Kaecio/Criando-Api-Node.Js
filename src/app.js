@@ -12,6 +12,7 @@ mongoose.connect("mongodb+srv://kaecio:123@cluster0.5gmzg.mongodb.net/myFirstDat
 
 // carrega os models
 const Product = require("./model/product");
+const Customer = require("./model/customer");
 
 // carrega as rotas
 const indexRoute = require("./routes/index");
