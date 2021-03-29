@@ -29,11 +29,13 @@ validation.prototype.isFixedLength = (value, length, message) => {
   }
 };
 
-validation.prototype.isEmpty = (value, message) => {
-  const regex = new RegExp(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
-  if (!reg.test(value)) {
+validation.prototype.isEmail = (value, message) => {
+  // const regex = new RegExp("^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i");
+  // if (!regex.test(value)) {
+  //   errors.push({ message: message });
+  // }
+
+  if (value < 6 ) {
     errors.push({ message: message });
   }
 };
