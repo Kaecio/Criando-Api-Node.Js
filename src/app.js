@@ -4,11 +4,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const config = require("./config")
 
 const router = express.Router();
 
 // Conectando ao banco
-mongoose.connect("mongodb+srv://kaecio:123@cluster0.5gmzg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser:true});
+mongoose.connect(config.connectionString, { useNewUrlParser:true});
 
 // carrega os models
 const Product = require("./model/product");
@@ -19,6 +20,7 @@ const Order = require("./model/order");
 const indexRoute = require("./routes/index");
 const productRoute = require("./routes/products");
 const customerRoute = require('./routes/customer');
+const orderRoute = require("./routes/order");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,5 +28,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/", indexRoute);
 app.use("/product", productRoute);
 app.use("/customer", customerRoute);
+app.use("/orders", orderRoute);
 
 module.exports = app;

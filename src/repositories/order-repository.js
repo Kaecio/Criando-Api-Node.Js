@@ -3,8 +3,10 @@
 const mongoose = require("mongoose");
 const Order = mongoose.model("Order");
 
-exports.create = async () => {
-  const resp = new Order.find({});
+exports.get = async (data) => {
+  const resp = Order.find({}, "number status create")
+    .populate("customer")
+    .populate("items.product");
   return resp;
 };
 

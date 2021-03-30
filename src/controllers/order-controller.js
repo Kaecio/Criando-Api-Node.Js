@@ -1,37 +1,32 @@
 'use strict';
 
 const repository = require("../repositories/order-repository");
+const guid = require('guid');
+
+exports.get = async (req, res, next) => {
+  try {
+    const data = await repository.get();
+    res.status(200).send(data);
+    console.log(data)
+  } catch (error) {
+    console.log('caiu no catch')
+    res.status(500).send({ message: "Falha ao processar a sua requisição1" });
+  }
+};
 
 exports.post = async (req, res, next) => {
-    let validationProduct = new Validation();
-    validationProduct.hasMinlen(
-      req.body.name,
-      3,
-      "O nome deve conter pelo menos 3 caracteres"
-    );
-    validationProduct.isEmail(
-      req.body.email,
-      "O email é inválido"
-    );
-    validationProduct.hasMinlen(
-      req.body.password,
-      6,
-      "O password deve conter pelo menos 6 caracteres"
-    );
-  
-    if (!validationProduct.isValid()) {
-      res.status(400).send(validationProduct.errors()).end();
-      return;
-    }
-    console.log("saiu do if")
     try {
-      await repository.create(req.body);
-      res.status(201).send({ message: "Cliente codastrado com sucesso" });
+      await repository.create({
+        customer:req.body.customer,
+        number:guid.raw().substring(0, 6),
+        item: req.body.item
+      });
+      res.status(201).send({ message: "Peido codastrado com sucesso" });
     } catch (error) {
         console.error("caiu no error")
       res
         .status(400)
-        .send({ message: "Falha ao cadastrar cliente" });
+        .send({ message: "Falha ao cadastrar pedido" });
     }
   };
 
